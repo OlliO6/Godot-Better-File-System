@@ -90,8 +90,7 @@ public partial class Plugin : EditorPlugin
         clearButton.filters = sideBar;
 
         rescanButton.Pressed += Update;
-        filterBar.TextChanged += (_) => Update();
-        fileTree.Draw += Update;
+        filterBar.TextChanged += (_) => CallDeferred(MethodName.Update);
 
         secondRowExtras.GetNode<Button>("HideEmpty").Toggled += ToggleHideEmpty;
         secondRowExtras.GetNode<Button>("Collapse").Pressed += CollapseAll;
@@ -128,7 +127,7 @@ public partial class Plugin : EditorPlugin
 
     public void ManuelUpdate()
     {
-        filterBar.EmitSignal("text_changed", filterBar.Text);
+        filterBar.EmitSignal(LineEdit.SignalName.TextChanged, filterBar.Text);
     }
 
     public void Update()
@@ -188,7 +187,6 @@ public partial class Plugin : EditorPlugin
         }
     }
 
-    #region Filter Logic 
     private bool FileFiltered(string path, string name, string itemType)
     {
         bool noIncluders = true;
@@ -355,8 +353,6 @@ public partial class Plugin : EditorPlugin
             }
         }
     }
-
-    #endregion
 
     #region Interactions 
 
