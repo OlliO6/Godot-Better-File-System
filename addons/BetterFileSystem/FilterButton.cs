@@ -12,7 +12,12 @@ public partial class FilterButton : IconButton
     [Export] public bool autoDisable = true, autoExpandAll, autoCollapseAll;
     [Export] private string autoSelectPath = "";
 
-    private void OnToggled(bool toggled)
+    public override void _Ready()
+    {
+        Toggled += ToggledCallback;
+    }
+
+    private void ToggledCallback(bool toggled)
     {
         if (Owner is null || Owner.GetParent() is Viewport || Plugin.instance is null) return;
 

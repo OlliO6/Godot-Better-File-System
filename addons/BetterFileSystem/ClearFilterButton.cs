@@ -19,7 +19,7 @@ public partial class ClearFilterButton : IconButton
     {
         foreach (FilterButton filterButton in GetAllFilterButtons())
         {
-            if (filterButton != dont)
+            if (filterButton != dont && filterButton.autoDisable)
                 filterButton.Reset();
         }
 

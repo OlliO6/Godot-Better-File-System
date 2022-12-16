@@ -11,9 +11,9 @@ public partial class Plugin : EditorPlugin
 {
     public const string IconThemeType = "EditorIcons";
 
-    private bool hidingEmptyDirectories;
-
     public static Plugin instance;
+
+    private bool hidingEmptyDirectories, isScanning;
 
     private PackedScene firstRowExtrasScene = GD.Load<PackedScene>("res://addons/BetterFileSystem/FirstRowExtras.tscn");
     private PackedScene secondRowExtrasScene = GD.Load<PackedScene>("res://addons/BetterFileSystem/SecondRowExtras.tscn");
@@ -81,6 +81,7 @@ public partial class Plugin : EditorPlugin
         filterBar = secondRow.GetChild<LineEdit>(1);
 
         rescanButton = firstRow.GetChild<Button>(4); // Hidden feature
+        rescanButton.Flat = true;
         rescanButton.Show();
 
         buttonToHide = firstRow.GetChild<Button>(5);
@@ -89,7 +90,7 @@ public partial class Plugin : EditorPlugin
         clearButton = secondRowExtras.GetChild<ClearFilterButton>(0);
         clearButton.filters = sideBar;
 
-        rescanButton.Pressed += Update;
+        rescanButton.Pressed += () => isScanning = true;
         filterBar.TextChanged += (_) => CallDeferred(MethodName.Update);
 
         secondRowExtras.GetNode<Button>("HideEmpty").Toggled += ToggleHideEmpty;
@@ -122,6 +123,12 @@ public partial class Plugin : EditorPlugin
         {
             instance = this;
             // On Build
+        }
+
+        if (isScanning && !GetEditorInterface().GetResourceFilesystem().IsScanning())
+        {
+            isScanning = false;
+            Update();
         }
     }
 

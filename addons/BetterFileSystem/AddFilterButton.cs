@@ -8,9 +8,9 @@ public partial class AddFilterButton : IconButton
 {
     PackedScene filtersScene = GD.Load<PackedScene>("res://addons/BetterFileSystem/Filters.tscn");
 
-    private void OnPressed()
+    public override void _Ready()
     {
-        Plugin.instance.GetEditorInterface().OpenSceneFromPath("res://addons/BetterFileSystem/Filters.tscn");
+        Pressed += () => Plugin.instance.GetEditorInterface().OpenSceneFromPath("res://addons/BetterFileSystem/Filters.tscn");
     }
 }
 
