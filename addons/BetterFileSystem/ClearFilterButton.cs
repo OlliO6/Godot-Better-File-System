@@ -23,7 +23,7 @@ public partial class ClearFilterButton : IconButton
                 filterButton.Reset();
         }
 
-        Plugin.instance.SearchFilter = "";
+        Plugin.instance.filterBar.Text = "";
 
         Plugin.instance.ManuelUpdate();
     }

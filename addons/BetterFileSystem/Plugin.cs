@@ -22,30 +22,24 @@ public partial class Plugin : EditorPlugin
     private FileSystemDock fileSystemDock;
     public EditorFileSystem fileSystem;
 
+    public LineEdit filterBar;
+    public ClearFilterButton clearButton;
+
+    public List<FileFilter> fileFilters = new();
+    public List<DirectoryFilter> directoryFilters = new();
+
     private Tree fileTree;
     private Node row;
     private Node firstRowExtras;
     private Node secondRowExtras;
     private Node sideBar;
     private HBoxContainer hBox;
-    private LineEdit filterBar;
-    public ClearFilterButton clearButton;
-
-    public List<FileFilter> fileFilters = new();
-    public List<DirectoryFilter> directoryFilters = new();
-
-    private Dictionary<string, TreeItem> favorites = new();
-
     private Button buttonToHide;
     private Button rescanButton;
 
-    public Theme EditorTheme => GetEditorInterface().GetBaseControl().Theme;
+    private Dictionary<string, TreeItem> favorites = new();
 
-    public string SearchFilter
-    {
-        get => filterBar.Text;
-        set => filterBar.Text = value;
-    }
+    public Theme EditorTheme => GetEditorInterface().GetBaseControl().Theme;
 
     public override void _EnterTree()
     {
@@ -123,6 +117,7 @@ public partial class Plugin : EditorPlugin
         {
             instance = this;
             // On Build
+            GD.Print("Builded");
         }
 
         if (isScanning && !GetEditorInterface().GetResourceFilesystem().IsScanning())
