@@ -246,14 +246,14 @@ public partial class Plugin : EditorPlugin
 
     private bool IsClassDerivedFromType(string @class, string type)
     {
-        if (@class is "")
+        if (@class == "")
             return false;
         if (@class == type)
             return true;
+        if (@class == "TextFile")
+            return false;
 
-        string parentClass = ClassDB.GetParentClass(@class);
-
-        return IsClassDerivedFromType(parentClass, type);
+        return IsClassDerivedFromType(ClassDB.GetParentClass(@class), type);
     }
 
     private void FilterDirectories(Stack<TreeItem> folders)
