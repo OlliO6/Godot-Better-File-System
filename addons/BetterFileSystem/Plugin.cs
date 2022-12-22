@@ -356,6 +356,11 @@ public partial class Plugin : EditorPlugin
         }
     }
 
+    public override void _SaveExternalData()
+    {
+        CallDeferred(MethodName.Update);
+    }
+    
     #region Interactions 
 
     public void ToggleHideEmpty(bool toggled)
